@@ -1,0 +1,11 @@
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\bin\Debug\netcoreapp2.1\WebFetch.deps.json
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\bin\Debug\netcoreapp2.1\WebFetch.runtimeconfig.json
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\bin\Debug\netcoreapp2.1\WebFetch.runtimeconfig.dev.json
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\bin\Debug\netcoreapp2.1\WebFetch.dll
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\bin\Debug\netcoreapp2.1\WebFetch.pdb
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\obj\Debug\netcoreapp2.1\WebFetch.csprojAssemblyReference.cache
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\obj\Debug\netcoreapp2.1\WebFetch.csproj.CoreCompileInputs.cache
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\obj\Debug\netcoreapp2.1\WebFetch.AssemblyInfoInputs.cache
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\obj\Debug\netcoreapp2.1\WebFetch.AssemblyInfo.cs
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\obj\Debug\netcoreapp2.1\WebFetch.dll
+C:\Users\Sanjeev\Projects\dotnet\WebFetcher\WebFetch\obj\Debug\netcoreapp2.1\WebFetch.pdb
