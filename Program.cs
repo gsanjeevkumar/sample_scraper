@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using System.IO;
 
 namespace WebFetch
 {
@@ -12,15 +13,40 @@ namespace WebFetch
         static void Main(string[] args)
         {
             var _url = "https://stocksnap.io/search/flower";
-            WebClient _client = new WebClient();
-            string _html = _client.DownloadString(_url);
+            string _urlXCentium = "https://www.xcentium.com/";
+            
+
+            // _client.Headers["User-Agent"] = "MOZILLA/5.0 (WINDOWS NT 6.1; WOW64) APPLEWEBKIT/537.1 (KHTML, LIKE GECKO) CHROME/21.0.1180.75 SAFARI/537.1";
+
+            HtmlWeb _doc = new HtmlWeb();
+            string _html = "";
+
+            try
+            {
+                // System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+                WebClient _client = new WebClient();
+                _client.Headers.Add("User-Agent: Only a test");
+                _html = _client.DownloadString(_url);
+            }
+            catch (WebException ex)
+            {
+                if (ex.Response != null)
+                {
+                    var response = ex.Response;
+                    var dataStream = response.GetResponseStream();
+                    var reader = new StreamReader(dataStream);
+                    var details = reader.ReadToEnd();
+                }
+            }
 
 
             List<string> _searchTags = new List<string>(){"img", "h1"};
 
             // var _matches = Regex.Match(_html);
             
-            Console.WriteLine("HTML Tag Count    : " + GetElementCount(_html, TagType.IMG));
+            Console.WriteLine("Image Tag Count   : " + GetElementCount(_html, TagType.IMG));
             Console.WriteLine("Word Count        : " + GetWordCount(_html));
             Console.WriteLine("Unique Word Count : " + GetUniqueWordCount(_html));
         }
@@ -34,46 +60,45 @@ namespace WebFetch
             var _url = "https://stocksnap.io/search/flower";
             var doc = new HtmlDocument();
             doc.LoadHtml(_html);
-            List<string> _images = new List<string>();
-            string n = doc.DocumentNode.SelectNodes("//img").First().Attributes["src"].Value;
+            var _images = new List<String>();
+            int _length = 0;
+            
+            String _allWords = "";
 
-            foreach (HtmlNode img in doc.DocumentNode.SelectNodes("//img")){
-                HtmlAttribute att = img.Attributes["src"];
-                _images.Add(new string(att.Value));
+            int _wordCount = 0;
+
+            //*[not(self::script or self::style)]/text()
+            foreach (HtmlNode style in doc.DocumentNode.Descendants("style").ToArray())
+            {
+                style.Remove();
+            }
+            foreach (HtmlNode script in doc.DocumentNode.Descendants("script").ToArray())
+            {
+                script.Remove();
             }
 
-            Regex _rx;
-            string _pattern;
-            int _length = 0;
-            MatchCollection _matches;
-            try
+            foreach (HtmlTextNode node in doc.DocumentNode.SelectNodes("//*[not(self::script or self::style)]/text()[normalize-space()]"))
             {
-                switch(tagType)
-                {
-                    case TagType.HTML:
-                        _pattern = @"(/?([^>/]*)/?>)";
-                        break;
-                    case TagType.IMG:
-                        _pattern = @"img.*";
-                        break;
-                    default:
-                        _pattern = @"(</?([^>/]*)/?>)";
-                        break;
+                _wordCount += GetWordCount(node.InnerText);
+                _allWords += " " + node.InnerText;
+            }
+
+            Console.WriteLine(@"Word count          : {0}", _wordCount);
+            Console.WriteLine(@"Unique Word count   : {0}", GetUniqueWordCount(_allWords));
+            try{
+                
+                foreach (HtmlNode img in doc.DocumentNode.SelectNodes("//img")){
+                    if(img.Attributes.Contains(new string("src"))){
+                        System.Console.WriteLine(@"IMG Tag :{0}", img.Attributes[0].Value);
+                        _images.Add(img.Attributes[0].Value);
+                    };
                 }
 
-                _matches = new Regex(_pattern).Matches(_html);
-                var tags = _matches.OfType<Match>().Select(m => m.Groups[2].Value);
-                                
-                // _rs = Regex.Matches(_html, _pattern, RegexOptions.IgnoreCase);
-                _length = 1;
+                _length = _images.Count;
             }
             catch (System.Exception ex)
             {
                 System.Console.WriteLine("Exception at:" + ex.ToString());  
-            }
-            finally
-            {
-                _length = 0;
             }
 
             return _length;
