@@ -63,6 +63,8 @@ namespace WebFetch
             var _images = new List<String>();
             int _length = 0;
             
+            List<string> _forLinq = new List<string>();
+
             String _allWords = "";
 
             int _wordCount = 0;
@@ -81,10 +83,23 @@ namespace WebFetch
             {
                 _wordCount += GetWordCount(node.InnerText);
                 _allWords += " " + node.InnerText;
+                _forLinq.Add(node.InnerText);
             }
 
+            var distinct = _allWords.Split(" ")
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Distinct();
+            
             Console.WriteLine(@"Word count          : {0}", _wordCount);
             Console.WriteLine(@"Unique Word count   : {0}", GetUniqueWordCount(_allWords));
+            Console.WriteLine(@"Unique Word count L : {0}", distinct.Count());
+            
+            var g = _allWords.Split(" ").GroupBy(i => i).OrderByDescending( x => x.Count());
+            foreach(var group in g)
+            {
+                Console.WriteLine("{0} {1}", group.Key, group.Count());
+            }
+
             try{
                 
                 foreach (HtmlNode img in doc.DocumentNode.SelectNodes("//img")){
