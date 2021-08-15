@@ -2,7 +2,6 @@
 using System.Net;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using System.IO;
 
@@ -13,17 +12,12 @@ namespace WebFetch
         static void Main(string[] args)
         {
             var _url = "https://stocksnap.io/search/flower";
-            string _urlXCentium = "https://www.xcentium.com/";
-            
-
-            // _client.Headers["User-Agent"] = "MOZILLA/5.0 (WINDOWS NT 6.1; WOW64) APPLEWEBKIT/537.1 (KHTML, LIKE GECKO) CHROME/21.0.1180.75 SAFARI/537.1";
 
             HtmlWeb _doc = new HtmlWeb();
             string _html = "";
 
             try
             {
-                // System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
                 WebClient _client = new WebClient();
@@ -44,8 +38,6 @@ namespace WebFetch
 
             List<string> _searchTags = new List<string>(){"img", "h1"};
 
-            // var _matches = Regex.Match(_html);
-            
             Console.WriteLine("Image Tag Count   : " + GetElementCount(_html, TagType.IMG));
             Console.WriteLine("Word Count        : " + GetWordCount(_html));
             Console.WriteLine("Unique Word Count : " + GetUniqueWordCount(_html));
@@ -57,7 +49,6 @@ namespace WebFetch
         }
         static int GetElementCount(string _html, TagType tagType){
         
-            var _url = "https://stocksnap.io/search/flower";
             var doc = new HtmlDocument();
             doc.LoadHtml(_html);
             var _images = new List<String>();
