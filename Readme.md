@@ -10,10 +10,10 @@ dotnet build
 dotnet run
 ```
 
-# returns 'Image URLs from IMG Tags'
-# returns 'Words Count'
-# returns 'Unique words count'
-# returns 'Unique occourances sorted'
+- Returns 'Image URLs from IMG Tags'
+- Returns 'Words Count'
+- Returns 'Unique words count'
+- Returns 'Unique occourances sorted'
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
